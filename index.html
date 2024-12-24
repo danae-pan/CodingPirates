@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,37 +13,156 @@
             padding: 20px;
             background-color: #f9f9f9;
             color: #333;
-            text-align: center;
         }
-        h1 {
+
+        h1, h2 {
             color: #0056b3;
         }
+
         img {
-            max-width: 80%;
+            max-width: 100%;
             height: auto;
+        }
+
+        .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .text-container {
+            flex: 1;
+        }
+
+        .image-container {
+            flex: 1;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 90%;
+            height: auto;
+        }
+        
+        .list-container {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .list-container ul {
+            margin-right: 15px;
+            list-style-type: disc;
+        }
+
+        .formula {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #e8f4fc;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: inline-block;
+        }
+
+        .side-by-side {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
             margin-top: 20px;
         }
-        p {
-            text-align: justify;
+
+        .text-container {
+            flex: 1;
+        }
+
+        .image-container {
+            flex: 1;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 90%;
+            height: auto;
         }
     </style>
 </head>
+
 <body>
-    <h1>How Human Vision Works</h1>
+    <h1>Images Made Simple!</h1>
+    <h2>How Human Vision Works</h2>
+    <div class="flex-container">
+        <div class="text-container">
+            <p>
+                When light hits an object, like a dog, it bounces off the object and travels into our eyes. The light first
+                passes through
+                a clear layer called the <strong>cornea</strong>, which helps focus it. Next, the light goes through the
+                <strong>pupil</strong>, which
+                controls how much light enters. The <strong>retina</strong> at the back of the eye then receives the light,
+                where special
+                sensors called <strong>rods</strong> and <strong>cones</strong> detect colors and shapes.
+            </p>
+            <p>
+                Our brain then works like a puzzle solver, turning the light into information about color, shape, movement, and
+                detail,
+                helping us understand what we're seeing!
+            </p>
+        </div>
+        <div class="image-container">
+            <img src="human_vision.png" alt="Diagram of how light enters the eye">
+        </div>
+    </div>
+
+    <h2>How Computer Vision Works</h2>
     <p>
-        When light hits an object, like a dog, it bounces off the object and travels into our eyes. The light first passes through
-        a clear layer called the <strong>cornea</strong>, which helps focus it. Next, the light goes through the <strong>pupil</strong>, which
-        controls how much light enters. The <strong>retina</strong> at the back of the eye then receives the light, where special
-        sensors called <strong>rods</strong> and <strong>cones</strong> detect colors and shapes.
+        This is how we can see but what about computers? Well, like we use our eyes, computers use <strong>digital
+            cameras</strong> equipped with <strong>sensors</strong> to capture light.
+        These sensors, usually CMOS (Complementary Metal Oxide Semi-conductor) or sometimes CCD (Charge-Coupled Device),
+        detect light (photons) and convert it into electrical
+        signals (electrons).
     </p>
     <p>
-        Our brain then works like a puzzle solver, turning the light into information about color, shape, movement, and detail,
-        helping us understand what we're seeing!
+        To reproduce human color vision, the acquisition mimics the three kinds of cones by using filtering in front of the
+        sensor. One commonly used filter is the <strong>Bayer filter</strong>, 
+        a mosaic of red, green, and blue filters, which is placed over a square grid of photosensors. Each filter acts like a colored lens,
+        only allowing light of its corresponding wavelength to pass through while blocking the others. This means that each pixel 
+        in the sensors detects only one color channel, e.g., a red pixel records the intensity of red light but knows nothing about the green 
+        and blue light. But what can we do with this? How would we find the missing colors? Cameras come to rescue, using a process called demosaicing
+        which estimates the missing color values for each pixel by analyzing the surrunding pixels. One simple approach to this is averaging neighboring pixels.
     </p>
 
-    <p>
-        This is how we can see but what about computers? Well, like we have eyes, computers have sensors
-    </p>
-    <img src="human_vision.png" alt="Diagram of how light enters the eye">
+    <p>Here is how it works in practice: </p>
+   
+    <div class="side-by-side">
+        <div class="text-container">
+            <p>
+                In the following image, the highlighted red pixel has an intensity value of 100. To estimate the missing green
+                and blue values for this pixel, we consider its neighboring pixels in a 3x3 grid:
+            </p>
+            <p>
+                To calculate the <strong>green channel</strong>, we take the intensity values of the four surrounding green
+                pixels and average them:
+            </p>
+            <p class="formula">
+                Green value = (Green1 + Green2 + Green3 + Green4) / 4
+            </p>
+            <p>
+                Similarly, to calculate the <strong>blue channel</strong>, we average the intensity values of the four
+                surrounding blue pixels:
+            </p>
+            <p class="formula">
+                Blue value = (Blue1 + Blue2 + Blue3 + Blue4) / 4
+            </p>
+            <p>
+                This interpolation process ensures that each pixel now has values for <strong>Red</strong>,
+                <strong>Green</strong>, and <strong>Blue</strong>,
+                transforming the single-color pixel into a complete, colorful one.
+            </p>
+        </div>
+        <div class="image-container">
+            <img src="Bayer_pattern_on_sensor.png" alt="Bayer pattern on sensor">
+        </div>
+    </div>
 </body>
+
 </html>
